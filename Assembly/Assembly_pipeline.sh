@@ -9,11 +9,12 @@
 NAME=$1
 FLYE=$2
 PILON=$3
+TGS_GAPCLOSER=$4
 
-NANOPORE_READS=$4
-ILLUMINA_READS_1=$5
-ILLUMINA_READS_2=$6
-REFERENCE=$7
+NANOPORE_READS=$5
+ILLUMINA_READS_1=$6
+ILLUMINA_READS_2=$7
+REFERENCE=$8
 
 mkdir /scratch/ldennu
 mkdir /scratch/ldennu/Bathycoccus_assembly
@@ -42,10 +43,17 @@ samtools index ${NAME}_FLYE_MEDAKA.sorted.bam
 java -Xmx16G -jar ${PILON} --genome ./MEDAKA/consensus.fasta --frags ${NAME}_FLYE_MEDAKA.sorted.bam --outdir PILON
 
 ##########
-##RAGTAG scaffolding with reference assembly
+## RAGTAG scaffolding with reference assembly
 module load bioinfo/ragtag/2.1.0
 
 ragtag.py scaffold -Cr -o RAGTAG ${REFERENCE} ./PILON/pilon.fasta
+
+##########
+## TGS-GapCloser
+module load bioinfo/seqtk/1.3-r106
+
+seqtk seq -a ${NANOPORE_READS} > ${NAME}_ONT.fasta
+${TGS_GAPCLOSER} --scaff ./RAGTAG/ragtag.scaffold.fasta --reads ${NANOPORE_READS} --output TGS --pilone ${PILON} --java /usr/java/default/bin/java --ngs ${ILLUMINA_READS_1} ${ILLUMINA_READS_2} --samtools /usr/local/samtools-1.9/bin/samtools --p_round 1 --r_round 0 --min_nread 3 --pilon_mem 16G
 
 ##########
 module purge
