@@ -53,7 +53,7 @@ ragtag.py scaffold -Cr -o RAGTAG ${REFERENCE} ./PILON/pilon.fasta
 module load bioinfo/seqtk/1.3-r106
 
 seqtk seq -a ${NANOPORE_READS} > ${NAME}_ONT.fasta
-${TGS_GAPCLOSER} --scaff ./RAGTAG/ragtag.scaffold.fasta --reads ${NANOPORE_READS} --output TGS --pilone ${PILON} --java /usr/java/default/bin/java --ngs ${ILLUMINA_READS_1} ${ILLUMINA_READS_2} --samtools /usr/local/samtools-1.9/bin/samtools --p_round 1 --r_round 0 --min_nread 3 --pilon_mem 16G
+${TGS_GAPCLOSER} --scaff ./RAGTAG/ragtag.scaffold.fasta --reads ${NANOPORE_READS} --output TGS --pilon ${PILON} --java /usr/java/default/bin/java --ngs ${ILLUMINA_READS_1} ${ILLUMINA_READS_2} --samtools /usr/local/samtools-1.9/bin/samtools --p_round 1 --r_round 0 --min_nread 3 --pilon_mem 16G
 
 ##########
 module purge
