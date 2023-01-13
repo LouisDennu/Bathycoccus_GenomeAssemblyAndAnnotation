@@ -30,7 +30,7 @@ time python ${FLYE} --nano-hq ${NANOPORE_READS} --genome-size 15m --scaffold --t
 ## MEDAKA correction with nanopore reads
 module load bioinfo/medaka/1.5
 
-time medaka_consensus -i ${NANOPORE_READS} -d ./FLYE/assembly.fasta -o MEDAKA m r941_min_high_g360 -t 2
+time medaka_consensus -i ${NANOPORE_READS} -d ./FLYE/assembly.fasta -o MEDAKA -m r941_min_high_g360 -t 2
 
 ##########
 ## PILON polishing with illumina reads
