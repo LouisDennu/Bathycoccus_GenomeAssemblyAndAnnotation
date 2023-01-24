@@ -11,11 +11,11 @@ rule target_rule:
 
 rule maker_round_1:
 	input:
-		opts.ctl = "/scratch/ldennu/training_maker_opts.ctl",
-		bopts.ctl = "/scratch/ldennu/maker_bopts.ctl",
-		exe.ctl = "/scratch/ldennu/maker_exe.ctl"
+		opts_ctl = "/scratch/ldennu/training_maker_opts.ctl",
+		bopts_ctl = "/scratch/ldennu/maker_bopts.ctl",
+		exe_ctl = "/scratch/ldennu/maker_exe.ctl"
 	output:
-		maker_gff_round_1 = "/scratch/ldennu/
+		maker_gff_round_1 = "/scratch/ldennu/"
 	shell:
 		"""
 		module load system/python/3.8.12
@@ -25,7 +25,7 @@ rule maker_round_1:
 		module load bioinfo/blast/2.8.1+
 
 		cd /scratch/ldennu
-		time mpiexec -n 12 maker -base Bprasinos_rnd1_011212022 round1_maker_opts.ctl maker_bopts.ctl maker_exe.ctl
+		time mpiexec -n 12 maker -base Bprasinos_rnd1_011212022 {input.opts_ctl} {input.bopts_ctl} {input.exe_ctl}
 		"""
 
 ############################################

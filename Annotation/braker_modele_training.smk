@@ -1,23 +1,25 @@
-STRAIN_SUBSET = [""]
-
 rule target_rule:
 	input:
-		
+		GeneMark_ET_model = "/scratch/ldennu/braker/GeneMark-ET/gmhmm.mod"
 
 rule braker_training:
 	input:
-		assembly = ""
-		bam = ""
+		braker_singularity = "/scratch/ldennu/braker_singularity/braker3.sif",
+		assembly = "/scratch/ldennu/assembly/4752.fasta.masked",
+		bam = "/scratch/ldennu/RNAseq_snakemake/4752_masked_RNAseq_HISAT2.sorted.bam",
 	output:
-	
+		GeneMark_ET_model = "/scratch/ldennu/braker/GeneMark-ET/gmhmm.mod"
 	shell:
 		"""
-		module load system/Miniconda3/1.0
-		module load system/perl/5.24.0
-		module unload system/perl/5.24.0 
-		module load bioinfo/BRAKER/2.1.5
+		module load system/singularity/3.6.0
 
-		conda activate genemark-ET_env
+		cd /scratch/ldennu/	
 
-		perl /home/dennu/tools/BRAKER-2.1.6/scripts/braker.pl --genome {input.assembly} --bam {input.bam} --cores 12 --GENEMARK_PATH /home/dennu/tools/genemark --AUGUSTUS_CONFIG_PATH /home/dennu/tools/augustus-3.3.3/config
+		singularity exec {input.braker_singularity} braker.pl \
+		--genome {input.assembly} \
+		--bam {input.bam} \
+		--threads 12 \
+		--GENEMARK_PATH=/home/dennu/tools/genemark-4.71 \
+ 		--softmasking \
+ 		--UTR on
 		"""
