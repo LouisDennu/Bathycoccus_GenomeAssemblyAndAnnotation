@@ -75,6 +75,7 @@ TGS-GapCloser.sh --scaff ${ASSEMBLY} --reads ${FASTA_ONT} --output ${OUTDIR} --p
 ### Genome statistics
 
 Genome statistics were produced using Assembly-stats 1.0.1.
+
 https://github.com/sanger-pathogens/assembly-stats
 
 ```shell
