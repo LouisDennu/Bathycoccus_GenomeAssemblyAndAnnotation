@@ -31,7 +31,7 @@ rule SNAP_training:
 		hmm-assembler.pl genome params > snap_trained_modele.hmm
 		"""
 
-rule maker_round_1:
+rule maker_training_round:
 	input:
 		opts_ctl = "/scratch/ldennu/training_maker_opts.ctl",
 		bopts_ctl = "/scratch/ldennu/maker_bopts.ctl",
