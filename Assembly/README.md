@@ -8,6 +8,7 @@
 ### Genome assembly
 
 Genome assembly was produced with ONT reads by FLYE 2.9.
+
 https://github.com/fenderglass/Flye
 
 ```shell
@@ -17,6 +18,7 @@ python flye --nano-hq ${FASTQ_ONT} --genome-size 15m --scaffold --threads 6 --ou
 ### Assembly polishing
 
 Assembly polishing using nanopore reads was done using MEDAKA 1.5.
+
 https://github.com/nanoporetech/medaka
 
 ```shell
@@ -26,6 +28,7 @@ medaka_consensus -i ${FASTQ_ONT} -d ${ASSEMBLY} -o ${OUTDIR} -m r941_min_high_g3
 ### Assembly correction
 
 Assembly correction using illumina reads was done using BWA 0.7.17 for read mapping, Samtools 1.9 and PILON 1.24.
+
 https://github.com/lh3/bwa
 https://github.com/samtools/samtools
 https://github.com/broadinstitute/pilon
@@ -41,6 +44,7 @@ java -Xmx16G -jar pilon-1.24.jar --genome ${ASSEMBLY}	--frags	${ILLUMINA.sorted.
 
 Scaffolding and direction of contigs on the reference genome (Strain RCC1105) was done using RagTag 2.1.0.
 Unmapped contigs were grouped in Chr_0, considered as contaminations and discarded.
+
 https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_002220235.1/
 https://github.com/malonge/RagTag
 
@@ -53,6 +57,7 @@ ragtag.py scaffold -Cr ${REFERENCE_GENOME} ${ASSEMBLY}
 Gap filling was done using TGS-GapCloser 1.0.1 with Samtools 1.9 and PILON 1.24. Seqtk 1.3-r106 is used to convert FASTQ reads to FASTA for TGS-GapCloser input.
 ONT reads are corrected by Illumina reads using PILON and mapped on the assembly, gap crossing reads are used to fill the gap.
 One round of Pilon correction is used to stay consistent with global assembly correction.
+
 https://github.com/lh3/seqtk
 https://github.com/samtools/samtools
 https://github.com/broadinstitute/pilon
@@ -79,8 +84,11 @@ assembly-stats -t ${ASSEMBLY} > ${STATS_ASSEMBLY}
 ### Genome completion and quality assesment
 
 Genome completion assesment through search of conserved core genes was done using BUSCO 5.4.4 singularity image.
+
 https://busco.ezlab.org/
+
 Genome completion and quality assesment through Illumina reads mapping was done using MERQURY 1.1 singularity image.
+
 https://github.com/marbl/merqury
 
 ```shell
