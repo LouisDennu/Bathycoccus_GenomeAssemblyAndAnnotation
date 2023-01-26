@@ -74,6 +74,7 @@ https://github.com/sanger-pathogens/assembly-stats
 
 ```shell
 assembly-stats -t ${ASSEMBLY} > ${STATS_ASSEMBLY}
+```
 
 ### Genome completion and quality assesment
 
