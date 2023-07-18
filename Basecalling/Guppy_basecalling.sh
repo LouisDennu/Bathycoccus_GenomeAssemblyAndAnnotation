@@ -8,7 +8,7 @@ OUTPUT=$2
 CUDA=$3
 
 #loading modules
-module load bioinfo/guppy-gpu/5.0.7
+module load bioinfo/guppy-gpu/6.1.2
 module load bioinfo/nanoplot/1.19.0
 
 #running basecalling
