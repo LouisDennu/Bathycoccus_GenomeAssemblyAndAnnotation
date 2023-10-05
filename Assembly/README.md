@@ -46,13 +46,14 @@ Scaffolding and direction of contigs on the reference genome (Strain RCC1105) wa
 Unmapped contigs were grouped in Chr_0, considered as contaminations and discarded.
 
 https://www.ncbi.nlm.nih.gov/data-hub/genome/GCF_002220235.1/
+
 https://github.com/malonge/RagTag
 
 ```shell
 ragtag.py scaffold -Cr ${REFERENCE_GENOME} ${ASSEMBLY}
 ```
 
-### Gap filling of scaffolded assemblt
+### Gap filling of scaffolded assembly
 
 Gap filling was done using TGS-GapCloser 1.0.1 with Samtools 1.9 and PILON 1.24. Seqtk 1.3-r106 is used to convert FASTQ reads to FASTA for TGS-GapCloser input.
 ONT reads are corrected by Illumina reads using PILON and mapped on the assembly, gap crossing reads are used to fill the gap.
