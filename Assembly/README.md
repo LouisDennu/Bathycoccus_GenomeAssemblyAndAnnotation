@@ -60,8 +60,11 @@ ONT reads are corrected by Illumina reads using PILON and mapped on the assembly
 One round of Pilon correction is used to stay consistent with global assembly correction.
 
 https://github.com/lh3/seqtk
+
 https://github.com/samtools/samtools
+
 https://github.com/broadinstitute/pilon
+
 https://github.com/BGI-Qingdao/TGS-GapCloser
 
 ```shell
