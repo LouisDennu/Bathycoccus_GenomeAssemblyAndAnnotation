@@ -1,4 +1,4 @@
-# Bathycoccus prasinos Pangenome
+# Bathycoccus genome assembly
 ## Genome de novo assembly and polishing
 
 ![alt text](https://github.com/LouisDennu/BathycoccusPangenome/blob/main/Assembly/Bathycoccus_pangenome_pipelines-Genome_assembly_pipeline.png)
