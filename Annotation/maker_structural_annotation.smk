@@ -1,5 +1,4 @@
 ############################################
-### MAKER Round 1
 
 rule target_rule:
 	input:
