@@ -19,7 +19,6 @@ rule stringtie_transcripts_assembly:
 	shell:
 		"""
 		module load bioinfo/stringtie/1.3.4
-		module load bioinfo/cufflinks/2.2.1-patched
 
 		stringtie {input.bam_file} -p 12 -v -o {output.transcripts_gft}
 		gffread {output.transcripts_gft} -g {input.soft_masked_assembly} -w {output.transcripts_fasta}
