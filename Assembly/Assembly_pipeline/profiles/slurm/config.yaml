@@ -1,0 +1,10 @@
+cluster: "sbatch --partition={cluster.partition} --time={cluster.time} --cpus-per-task={cluster.cpus-per-task} --mem={cluster.mem} --output={config[log_dir]}/cluster/{rule}.{wildcards.strain}.out --error={config[log_dir]}/cluster/{rule}.{wildcards.strain}.err"
+cluster-config: "config/cluster.yaml"
+jobs: 24
+use-singularity: true
+use-conda: false
+latency-wait: 60
+restart-times: 1
+printshellcmds: true
+
+shadow-prefix: "/scratch/$USER/tmp_snakemake_assembly"

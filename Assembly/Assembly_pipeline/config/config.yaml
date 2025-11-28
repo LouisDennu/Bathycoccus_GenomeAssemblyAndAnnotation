@@ -1,0 +1,16 @@
+# config/config.yaml
+
+# Base directory path
+base_dir: "/home/XXX/Assembly_pipeline"
+log_dir: "/home/XXX/Assembly_pipeline/logs"
+
+# Tools parameters
+## FLYE
+genome_size: "15m"
+## MEDAKA
+medaka_model: "r1041_e82_400bps_sup_v5.0.0"
+## PILON
+pilon_memory: "16G"
+## TGS-gapcloser
+min_nread: "3"
+r_round: "1"

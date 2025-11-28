@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: continuumio/miniconda3
+
+%files
+    ENV_YML /env.yml
+
+%post
+    export PATH=/opt/conda/bin:$PATH
+    conda env create -f /env.yml
+
+%environment
+    source /opt/conda/etc/profile.d/conda.sh
+    conda activate ENV_NAME

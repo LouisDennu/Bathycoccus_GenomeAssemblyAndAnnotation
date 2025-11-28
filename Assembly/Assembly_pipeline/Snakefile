@@ -1,0 +1,126 @@
+############################################
+# Bathycoccus Genome Assembly Snakefile
+############################################
+
+import glob, os , re
+# Set config.yaml file
+
+
+configfile: "./config/config.yaml"
+
+# Set and derive paths
+
+base_dir = config["base_dir"]
+data_dir = os.path.join(base_dir, "data")
+output_dir = os.path.join(base_dir, "results")
+singularity_dir = os.path.join(base_dir, "singularity")
+ont_dir = os.path.join(data_dir, "ont")
+illumina_dir = os.path.join(data_dir, "illumina")
+
+ref_candidates = glob.glob(os.path.join(data_dir, "references", "*.fa")) \
+               + glob.glob(os.path.join(data_dir, "references", "*.fasta"))
+if len(ref_candidates) == 0:
+    raise ValueError("No reference FASTA found in references directory")
+elif len(ref_candidates) > 1:
+    raise ValueError(f"Multiple reference FASTA files found: {ref_candidates}. Please specify one.")
+else:
+    reference_genome = ref_candidates[0]
+
+log_dir = config["log_dir"]
+log_snakemake = os.path.join(log_dir, "snakemake")
+
+import subprocess
+print("REALPATH ont_dir:", subprocess.getoutput(f"readlink -f {ont_dir}"))
+print("PWD:", os.getcwd())
+print("SNAKEMAKE INSIDE SINGULARITY?:", os.environ.get("SINGULARITY_CONTAINER"))
+
+
+
+# Auto-detect strains from ONT reads
+
+STRAINS = sorted(
+	[os.path.basename(f).replace(".fastq.gz", "")
+	for f in glob.glob(f"{ont_dir}/*.fastq.gz")]
+)
+
+print("\nDetected ONT strains:")
+for s in STRAINS:
+	print(f"  - {s}")
+
+# Create a log directory for detected strains
+
+for strain in STRAINS:
+	os.makedirs(os.path.join(log_snakemake, strain, "out"), exist_ok=True)
+	os.makedirs(os.path.join(log_snakemake, strain, "err"), exist_ok=True)
+
+# Auto-detect illumina reads availability per strain
+
+PILON_MODE = {}   # "polish" or "skip"
+ILLUMINA_READS = {}  # store paths or None
+
+print("\nDetected Illumina reads:")
+for strain in STRAINS:
+
+	r1 = f"{illumina_dir}/{strain}_R1.fastq.gz"
+	r2 = f"{illumina_dir}/{strain}_R2.fastq.gz"
+
+	r1_exists = os.path.exists(r1)
+	r2_exists = os.path.exists(r2)
+
+	if r1_exists and r2_exists:
+		PILON_MODE[strain] = "polish"
+		ILLUMINA_READS[strain] = (r1, r2)
+		print(f"  - {strain}: FOUND R1/R2 → Pilon mode = POLISH")
+	else:
+		PILON_MODE[strain] = "skip"
+		ILLUMINA_READS[strain] = None
+		print(f"  - {strain}: NO illumina reads → Pilon mode = SKIP")
+
+config["PILON_MODE"] = PILON_MODE
+config["ILLUMINA_READS"] = ILLUMINA_READS
+
+print({s: ILLUMINA_READS[s] for s in STRAINS})
+
+# Debugging: print all important paths
+print("\n=== Pipeline Paths ===")
+print(f"Base directory:        {base_dir}")
+print(f"Data directory:        {data_dir}")
+print(f"ONT directory:         {ont_dir}")
+print(f"Illumina directory:    {illumina_dir}")
+print(f"References directory:  {os.path.join(data_dir, 'references')}")
+print(f"Output directory:      {output_dir}")
+print(f"Singularity directory: {singularity_dir}")
+print(f"Log directory:         {log_dir}")
+print(f"Snakemake log dir:     {log_snakemake}")
+print("======================\n")
+
+# Also print detected files
+print("Reference candidates:", ref_candidates)
+print("Reference genome:", reference_genome if 'reference_genome' in locals() else "None found")
+print("Detected ONT strains:", STRAINS)
+print("Illumina reads per strain:")
+for strain in STRAINS:
+    print(f"  - {strain}: {ILLUMINA_READS[strain]}")
+print("Pilon mode per strain:")
+for strain in STRAINS:
+    print(f"  - {strain}: {PILON_MODE[strain]}")
+
+print("ONT dir:", ont_dir)
+print("ONT dir exists:", os.path.exists(ont_dir))
+print("ONT glob result:", glob.glob(f"{ont_dir}/*"))
+
+print("DEBUG via os.listdir:", os.listdir(ont_dir))
+print("DEBUG via os.scandir:", [e.name for e in os.scandir(ont_dir)])
+
+
+# Include rule files
+include: "rules/flye.smk"
+include: "rules/medaka.smk"
+include: "rules/pilon.smk"
+include: "rules/ragtag.smk"
+include: "rules/tgs_gapcloser.smk"
+
+# Default target
+rule all:
+	input:
+		expand(f"{output_dir}/{{strain}}/TGS/{{strain}}.scaff_seqs", strain=STRAINS)
