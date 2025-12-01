@@ -1,7 +1,7 @@
 rule pilon_polishing:
 	input:
-                illumina_r1 = lambda wc: config["ILLUMINA_READS"][wc.strain][0] if config["PILON_MODE"][wc.strain] == "polish" else [],
-                illumina_r2 = lambda wc: config["ILLUMINA_READS"][wc.strain][1] if config["PILON_MODE"][wc.strain] == "polish" else [],
+		illumina_r1 = lambda wc: config["ILLUMINA_READS"][wc.strain][0] if config["PILON_MODE"][wc.strain] == "polish" else [],
+		illumina_r2 = lambda wc: config["ILLUMINA_READS"][wc.strain][1] if config["PILON_MODE"][wc.strain] == "polish" else [],
 		medaka_consensus = lambda wc: f"{output_dir}/{wc.strain}/MEDAKA/consensus.fasta"
 	output:
 		bam_file = f"{output_dir}/{{strain}}/{{strain}}_FLYE_MEDAKA.sorted.bam",
@@ -15,7 +15,7 @@ rule pilon_polishing:
 		err = f"{log_snakemake}/{{strain}}/err/pilon.err"
 	threads: 4
 	singularity: f"{singularity_dir}/pilon.sif"
-        conda: f"{singularity_dir}/env_yml/pilon.yml"
+	conda: f"{singularity_dir}/env_yml/pilon.yml"
 	shadow: "full"
 	shell:
 		"""

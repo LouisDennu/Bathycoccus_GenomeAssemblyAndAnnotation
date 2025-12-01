@@ -12,7 +12,7 @@ rule medaka_correction:
 		err = f"{log_snakemake}/{{strain}}/err/medaka.err"
 	threads: 4
 	singularity: f"{singularity_dir}/medaka.sif"
-        conda: f"{singularity_dir}/env_yml/medaka.yml"
+	conda: f"{singularity_dir}/env_yml/medaka.yml"
 	shadow: "full"
 	shell:
 		"""

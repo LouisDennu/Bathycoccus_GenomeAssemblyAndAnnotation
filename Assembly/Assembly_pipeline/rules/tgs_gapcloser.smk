@@ -15,7 +15,7 @@ rule tgs_gapcloser:
 		err = f"{log_snakemake}/{{strain}}/err/tgs_gapcloser.err"
 	threads: 4
 	singularity: f"{singularity_dir}/tgsgapcloser.sif"
-        conda: f"{singularity_dir}/env_yml/tgsgapcloser.yml"
+	conda: f"{singularity_dir}/env_yml/tgsgapcloser.yml"
 	shadow: "full"
 	shell:
 		"""
