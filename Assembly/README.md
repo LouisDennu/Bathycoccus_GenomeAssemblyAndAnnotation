@@ -1,7 +1,8 @@
 # Bathycoccus genome assembly
 ## Genome de novo assembly and polishing
 
-Genome assembly pipeline located in ./Assembly_pipeline
+Complete Snakemake genome assembly pipeline located in ./Assembly_pipeline
+
 Legacy code located in ./Legacy_assembly_script for review purpose
 
 ![alt text](https://github.com/LouisDennu/BathycoccusPangenome/blob/main/Assembly/Bathycoccus_assembly_pipeline.png)
