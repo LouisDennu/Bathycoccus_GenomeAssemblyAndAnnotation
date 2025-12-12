@@ -1,6 +1,6 @@
 __default__:
   partition: normal
-  time: "02:00:00"
+  time: "24:00:00"
   cpus-per-task: 4
   mem: "16G"
 
@@ -28,3 +28,8 @@ tgs_gapcloser:
   time: "06:00:00"
   cpus-per-task: 4
   mem: "16G"
+
+rename_and_copy:
+  time: "01:00:00"
+  cpus-per-task: 1
+  mem: "8G"

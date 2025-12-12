@@ -119,6 +119,7 @@ include: "rules/medaka.smk"
 include: "rules/pilon.smk"
 include: "rules/ragtag.smk"
 include: "rules/tgs_gapcloser.smk"
+include: "rules/rename_and_copy.smk"
 
 # Default target
 rule all:
