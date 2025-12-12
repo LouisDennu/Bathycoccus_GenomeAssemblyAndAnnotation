@@ -122,5 +122,6 @@ include: "rules/tgs_gapcloser.smk"
 
 # Default target
 rule all:
-	input:
-		expand(f"{output_dir}/{{strain}}/TGS/{{strain}}.scaff_seqs", strain=STRAINS)
+        input:
+                expand(f"{output_dir}/{{strain}}/final/{{strain}}_assembly.fasta", strain=STRAINS)
+
