@@ -10,7 +10,7 @@ rule ragtag_scaffolding:
 		err = f"{log_snakemake}/{{strain}}/err/ragtag.err"
 	threads: 1
 	singularity: f"{singularity_dir}/ragtag.sif"
-        conda: f"{singularity_dir}/env_yml/ragtag.yml"
+	conda: f"{singularity_dir}/env_yml/ragtag.yml"
 	shadow: "shallow"
 	shell:
 		"""
